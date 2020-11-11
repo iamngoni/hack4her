@@ -17,6 +17,7 @@ let member = mongoose.Schema({
     {linkedIn: String},
     {instagram: String}
   ],
+  passwordResetKey: String,
   hash: String,
   salt: String
 }, {timestamps: true});
