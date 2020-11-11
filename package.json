@@ -2,7 +2,7 @@
   "name": "hack4her",
   "version": "1.0.0",
   "description": "",
-  "main": "/src/server.js",
+  "main": "./src/server.js",
   "scripts": {
     "lint": "eslint './src/*.{js,ts,tsx}' --quiet --fix"
   },
