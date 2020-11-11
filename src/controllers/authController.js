@@ -1,31 +1,36 @@
-const Member = require("../types/members");
-let messages = require("./../types/messages");
-
-function signUpValidator(req, res, data){
-  if(data.firstName == "" || data.firstName == null){
-    return res.json({message: messages.MISSING_NAME});
-  }else if(data.surname == "" || data.surname == null){
-    return res.json({message: messages.MISSING_SURNAME});
-  }else if(data.email == "" || data.email == null){
-    return res.json({message: messages.MISSING_EMAIL});
-  }else if(data.occupation == "" || data.occupation == null){
-    return res.json({message: messages.MISSING_OCCUPATION});
-  }else if(data.dateOfBirth == "" || data.dateOfBirth == null){
-    return res.json({message: messages.MISSING_DATEOFBIRTH});
-  }else if(data.password == "" || data.password == null || data.password.length < 6){
-    return res.json({message: messages.MISSING_PASSWORD});
-  }
-}
+const Members = require("./../models/members");
+const { validationResult } = require('express-validator');
+const e = require("express");
 
 module.exports = {
   signup: async function(req, res){
-    let data = req.body;
-    signUpValidator(req, res, data);
-    let member = new Member(data.firstName, data.middleName ?? undefined, data.surname, data.email, data.bio ?? undefined, data.occupation, data.dateOfBirth, data.password);
-    let i = await member.save();
-    if(typeof i == Error){
-      return res.json({error: i});
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() });
     }
-    return res.status(200).json({message: "Member has been saved"})
+
+    let member = new Members({
+      firstName: req.body.firstName,
+      middleName: req.body.middleName ?? undefined,
+      surname: req.body.surname,
+      email: req.body.email,
+      bio: req.body.bio,
+      occupation: req.body.occupation,
+      dateOfBirth: req.body.dateOfBirth
+    });
+
+    member.setPassword(req.body.password);
+    let _member = await member.save();
+    try{
+      if(!_member){
+        return res.status(422).json({errors: "Couldn't save user"});
+      }
+      return res.status(200).json({success: "Member saved with id: " + _member._id});
+    }catch(error){
+      if(error.code == 11000){
+        return res.status(400).json({errors: "User already registered: " + Object.keys(error.keyPattern)});
+      }
+      return res.status(500).json({errors: "Server error"});
+    }
   }
 }

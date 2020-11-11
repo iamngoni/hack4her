@@ -43,7 +43,7 @@ member.methods.generateJWT = function(){
   }, process.env.SECRET.toString());
 }
 
-member.methods.fullName = function(){
+member.virtual('fullName').get(function(){
   let fullName = "";
   fullName += this.firstName;
   fullName += " ";
@@ -53,11 +53,11 @@ member.methods.fullName = function(){
   }
   fullName += this.surname;
   return fullName;
-}
+});
 
 member.methods.toAuthJson = function(){
   return {
-    name: this.fullName(),
+    name: this.fullName,
     email: this.email,
     bio: this.bio,
     image: this.image,

@@ -19,10 +19,11 @@ app.get('*', (req, res, next) => {
   });
 });
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   res.status(404).json({
     message: error.message,
   });
+  next();
 });
 
 module.exports = app;
