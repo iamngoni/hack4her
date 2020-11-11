@@ -20,20 +20,20 @@ module.exports = {
     });
 
     member.setPassword(req.body.password);
-    let _member = await member.save();
     try{
+      let _member = await member.save();
       if(!_member){
         return res.status(422).json({errors: "Couldn't save user"});
       }
       return res.status(200).json({success: "Member saved with id: " + _member._id});
     }catch(error){
       if(error.code == 11000){
-        return res.status(400).json({errors: "User already registered: " + Object.keys(error.keyPattern)});
+        return res.status(400).json({errors: "User already registered with " + Object.keys(error.keyPattern)});
       }
       return res.status(500).json({errors: "Server error"});
     }
   },
-  
+
   login: async function(req, res){
     const errors = validationResult(req);
     if(!errors.isEmpty()){

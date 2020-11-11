@@ -38,4 +38,13 @@ class Email{
       }
     });
   }
+
+  /**
+   * Send Welcome Message
+   */
+  async sendWelcomeMessage(){
+    this.mailOptions.subject = "";
+    this.mailOptions.text = "";
+    await this._send();
+  }
 }
