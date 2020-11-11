@@ -1,6 +1,5 @@
-const Members = require("./../models/members");
+const Members = require("../models/members");
 const { validationResult } = require('express-validator');
-const e = require("express");
 
 module.exports = {
   signup: async function(req, res){
@@ -51,5 +50,9 @@ module.exports = {
     }
 
     return res.status(200).json({success: "Success", data: member.toAuthJson()})
+  },
+  
+  postImage: async function(req, res){
+
   }
 }
