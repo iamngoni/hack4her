@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 let member = mongoose.Schema({
   firstName: {type: String, index: true},

@@ -13,15 +13,15 @@ app.use(cors());
 app.use('/api', require('./routes'));
 
 // Express Error Handling
-app.get('*', function(req, res, next){
-  setImmediate(function(){
-    next(new Error("Route not found"));
+app.get('*', (req, res, next) => {
+  setImmediate(() => {
+    next(new Error('Route not found'));
   });
 });
 
-app.use(function(error, req, res, next){
+app.use((error, req, res) => {
   res.status(404).json({
-    message: error.message
+    message: error.message,
   });
 });
 
