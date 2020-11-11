@@ -2,9 +2,9 @@
   "name": "hack4her",
   "version": "1.0.0",
   "description": "",
-  "main": "/dist/server.js",
+  "main": "/src/server.js",
   "scripts": {
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    "lint": "eslint './src/*.{js,ts,tsx}' --quiet --fix"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/iamngoni/hack4her#readme",
   "devDependencies": {
     "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2"
   },
@@ -42,6 +44,7 @@
     "js-sha512": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.13",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "optionator": "^0.9.1"
   }
 }
