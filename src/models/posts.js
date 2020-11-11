@@ -10,4 +10,6 @@ let post = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Members'
   }
-})
+}, {timestamps: true});
+
+module.exports = mongoose.model("Posts", post);
