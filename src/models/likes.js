@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 let like = mongoose.Schema({
-  activity: String,
+  activity: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Activities'
+  },
   member: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Members'
