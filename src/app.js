@@ -10,7 +10,7 @@ app.use(logger('dev'));
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 app.use(cors());
-app.use(require('./routes'));
+app.use('/api', require('./routes'));
 
 // Express Error Handling
 app.get('*', function(req, res, next){
