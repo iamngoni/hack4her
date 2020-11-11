@@ -32,5 +32,24 @@ module.exports = {
       }
       return res.status(500).json({errors: "Server error"});
     }
+  },
+  
+  login: async function(req, res){
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let member = await Members.findOne({email: req.body.email});
+
+    if(!member){
+      return res.status(404).json({errors: "Email doesn't exist"});
+    }
+
+    if(!member.validatePassword(req.body.password)){
+      return res.status(403).json({errors: "Email and password mismatch"});
+    }
+
+    return res.status(200).json({success: "Success", data: member.toAuthJson()})
   }
 }

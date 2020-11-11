@@ -62,7 +62,9 @@ member.methods.toAuthJson = function(){
     bio: this.bio,
     image: this.image,
     occupation: this.occupation,
-    dateOfBirth: this.dateOfBirth
+    dateOfBirth: this.dateOfBirth,
+    socialProfiles: this.socialProfiles,
+    token: this.generateJWT()
   };
 }
 
