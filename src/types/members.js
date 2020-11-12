@@ -17,6 +17,30 @@ class Member{
       console.log(error);
     });
   }
+
+  async createGroup(){
+
+  }
+
+  async followGroup(){
+
+  }
+
+  async unfollowGroup(){
+
+  }
+
+  createPost(){
+
+  }
+
+  createTopic(){
+
+  }
+
+  vote(){
+    
+  }
 }
 
 module.exports = Member;
