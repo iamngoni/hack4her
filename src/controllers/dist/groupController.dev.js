@@ -2,7 +2,7 @@
 
 var models = require("./../models");
 
-var Group = require("./../types/groups");
+var types = require("./../types");
 
 module.exports = {
   getTopics: function getTopics(req, res) {
@@ -28,7 +28,7 @@ module.exports = {
             }));
 
           case 5:
-            _group = new Group(group);
+            _group = new types.Group(group);
             _context.next = 8;
             return regeneratorRuntime.awrap(_group.topics());
 
@@ -119,7 +119,7 @@ module.exports = {
             }));
 
           case 13:
-            _group = new Group(group);
+            _group = new types.Group(group);
             _context3.prev = 14;
             _context3.next = 17;
             return regeneratorRuntime.awrap(_group.addMember(req.params.memberId));

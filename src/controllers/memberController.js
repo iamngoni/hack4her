@@ -1,7 +1,6 @@
-const Member = require("../types/members");
+const types = require("../types");
 const mongoose = require("mongoose");
 const config = require("./../config");
-const Group = require("../types/groups");
 const models = require("./../models");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -28,7 +27,7 @@ module.exports = {
       return res.status(404).json({errors: "Member not found"});
     }
 
-    let _member = new Member(member);
+    let _member = new types.Member(member);
     let image = new models.Images({
       filename: req.file.filename,
       fileId: req.file.id
@@ -48,7 +47,7 @@ module.exports = {
       return res.status(404).json({errors: "Member not found"});
     }
 
-    let _member = new Member(member);
+    let _member = new types.Member(member);
     try{
       let group = await _member.createGroup(req.body.name, req.body.description);
       if(!group){
@@ -58,7 +57,7 @@ module.exports = {
       return res.status(201).json({success: "Success", group});
     }catch (error){
       if(error.code == 11000){
-        return res.status(400).json({errors: "Group name already registered"});
+        return res.status(400).json({errors: "types.Group name already registered"});
       }
       return res.status(500).json({errors: "Server error"});
     }   
@@ -94,7 +93,7 @@ module.exports = {
       return res.status(404).json({errors: "Couldn't find member"});
     }
 
-    let _member = new Member(member);
+    let _member = new types.Member(member);
     try{
       let topic = await _member.createTopic(req.params.groupId, req.body.title, req.body.description);
       if(!topic){
@@ -117,7 +116,7 @@ module.exports = {
       return res.status(404).json({errors: "Member not found"});
     }
 
-    let _member = new Member(member);
+    let _member = new types.Member(member);
     try{
       let request = await _member.requestGroupEntry(req.params.groupId);
       if(!request){
@@ -145,14 +144,14 @@ module.exports = {
 
     let group = await models.Groups.findById(request.group);
     if(!group){
-      return res.status(404).json({errors: "Group related to request doesn't exist"});
+      return res.status(404).json({errors: "types.Group related to request doesn't exist"});
     }
 
     if(group.admin._id.toString() !== member._id.toString()){
       return res.status(403).json({errors: "You cannot approve requets to groups for which you're not an admin"});
     }
 
-    let _group = new Group(group);
+    let _group = new types.Group(group);
     try{
       let modifiedGroup = await _group.addMember(request.member);
       if(!modifiedGroup){

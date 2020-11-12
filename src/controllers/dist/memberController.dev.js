@@ -1,12 +1,10 @@
 "use strict";
 
-var Member = require("../types/members");
+var types = require("../types");
 
 var mongoose = require("mongoose");
 
 var config = require("./../config");
-
-var Group = require("../types/groups");
 
 var models = require("./../models");
 
@@ -86,7 +84,7 @@ module.exports = {
             }));
 
           case 6:
-            _member = new Member(member);
+            _member = new types.Member(member);
             image = new models.Images({
               filename: req.file.filename,
               fileId: req.file.id
@@ -146,7 +144,7 @@ module.exports = {
             }));
 
           case 6:
-            _member = new Member(member);
+            _member = new types.Member(member);
             _context3.prev = 7;
             _context3.next = 10;
             return regeneratorRuntime.awrap(_member.createGroup(req.body.name, req.body.description));
@@ -179,7 +177,7 @@ module.exports = {
             }
 
             return _context3.abrupt("return", res.status(400).json({
-              errors: "Group name already registered"
+              errors: "types.Group name already registered"
             }));
 
           case 20:
@@ -256,7 +254,7 @@ module.exports = {
             }));
 
           case 6:
-            _member = new Member(member);
+            _member = new types.Member(member);
             _context5.prev = 7;
             _context5.next = 10;
             return regeneratorRuntime.awrap(_member.createTopic(req.params.groupId, req.body.title, req.body.description));
@@ -328,7 +326,7 @@ module.exports = {
             }));
 
           case 6:
-            _member = new Member(member);
+            _member = new types.Member(member);
             _context6.prev = 7;
             _context6.next = 10;
             return regeneratorRuntime.awrap(_member.requestGroupEntry(req.params.groupId));
@@ -418,7 +416,7 @@ module.exports = {
             }
 
             return _context7.abrupt("return", res.status(404).json({
-              errors: "Group related to request doesn't exist"
+              errors: "types.Group related to request doesn't exist"
             }));
 
           case 17:
@@ -432,7 +430,7 @@ module.exports = {
             }));
 
           case 19:
-            _group = new Group(group);
+            _group = new types.Group(group);
             _context7.prev = 20;
             _context7.next = 23;
             return regeneratorRuntime.awrap(_group.addMember(request.member));

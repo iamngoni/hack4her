@@ -1,5 +1,5 @@
 const models = require("./../models");
-const Group = require("./../types/groups");
+const types = require("./../types");
 
 module.exports = {
   getTopics: async function(req, res){
@@ -8,7 +8,7 @@ module.exports = {
       return res.status(404).json({errors: "Group not found"});
     }
 
-    let _group = new Group(group);
+    let _group = new types.Group(group);
     let topics = await _group.topics();
     return res.status(200).json({success: "Success", topics});
   },
@@ -34,7 +34,7 @@ module.exports = {
       return res.status(403).json({errors: "Only group admin can add a member"});
     }
 
-    let _group = new Group(group);
+    let _group = new types.Group(group);
     try{
       let modifiedGroup = await _group.addMember(req.params.memberId);
       if(!modifiedGroup){
