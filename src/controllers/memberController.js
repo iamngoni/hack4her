@@ -4,6 +4,8 @@ const Member = require("../types/members");
 const mongoose = require("mongoose");
 const config = require("./../config");
 const Groups = require("../models/groups");
+const Requestx = require("../models/requestx");
+const Group = require("../types/groups");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -108,6 +110,61 @@ module.exports = {
         return res.status(400).json({errors: "Topic already exists"});
       }
       return res.status(500).json({errors: "Server error"});
+    }
+  },
+
+  requestGroupEntry: async function(req, res){
+    let current_member = req.member;
+    let member = await Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "Member not found"});
+    }
+
+    let _member = new Member(member);
+    try{
+      let request = await _member.requestGroupEntry(req.params.groupId);
+      if(!request){
+        return res.status(500).json({errors: "Request not processed"});
+      }
+
+      return res.status(201).json({success: "Success", request});
+    }catch(error){
+      return res.status(500).json({errors: "Requests was posted already. Still waiting for approval"});
+    }
+  },
+
+  approveMemberEntry: async function(req, res){
+    let current_member = req.member;
+    let member = await Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "Couldn't find member"});
+    }
+
+    let requestId = req.params.requestId;
+    let request = await Requestx.findById(requestId);
+    if(!request){
+      return res.status(404).json({errors: "Request doesn't exist"});
+    }
+
+    let group = await Groups.findById(request.group);
+    if(!group){
+      return res.status(404).json({errors: "Group related to request doesn't exist"});
+    }
+
+    if(group.admin._id.toString() !== member._id.toString()){
+      return res.status(403).json({errors: "You cannot approve requets to groups for which you're not an admin"});
+    }
+
+    let _group = new Group(group);
+    try{
+      let modifiedGroup = await _group.addMember(request.member);
+      if(!modified){
+        return res.status(500).json({errors: "Failure"});
+      }
+
+      return res.status(201).json({success: "Success", group: modifiedGroup});
+    }catch(error){
+      return res.status(409).json({errors: error.message});
     }
   }
 }

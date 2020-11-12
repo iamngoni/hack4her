@@ -12,6 +12,10 @@ var config = require("./../config");
 
 var Groups = require("../models/groups");
 
+var Requestx = require("../models/requestx");
+
+var Group = require("../types/groups");
+
 var connect = mongoose.createConnection(config.db, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -305,5 +309,170 @@ module.exports = {
         }
       }
     }, null, null, [[7, 16]]);
+  },
+  requestGroupEntry: function requestGroupEntry(req, res) {
+    var current_member, member, _member, request;
+
+    return regeneratorRuntime.async(function requestGroupEntry$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            current_member = req.member;
+            _context6.next = 3;
+            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+
+          case 3:
+            member = _context6.sent;
+
+            if (member) {
+              _context6.next = 6;
+              break;
+            }
+
+            return _context6.abrupt("return", res.status(404).json({
+              errors: "Member not found"
+            }));
+
+          case 6:
+            _member = new Member(member);
+            _context6.prev = 7;
+            _context6.next = 10;
+            return regeneratorRuntime.awrap(_member.requestGroupEntry(req.params.groupId));
+
+          case 10:
+            request = _context6.sent;
+
+            if (request) {
+              _context6.next = 13;
+              break;
+            }
+
+            return _context6.abrupt("return", res.status(500).json({
+              errors: "Request not processed"
+            }));
+
+          case 13:
+            return _context6.abrupt("return", res.status(201).json({
+              success: "Success",
+              request: request
+            }));
+
+          case 16:
+            _context6.prev = 16;
+            _context6.t0 = _context6["catch"](7);
+            return _context6.abrupt("return", res.status(500).json({
+              errors: "Requests was posted already. Still waiting for approval"
+            }));
+
+          case 19:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, null, null, [[7, 16]]);
+  },
+  approveMemberEntry: function approveMemberEntry(req, res) {
+    var current_member, member, requestId, request, group, _group, modifiedGroup;
+
+    return regeneratorRuntime.async(function approveMemberEntry$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            current_member = req.member;
+            _context7.next = 3;
+            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+
+          case 3:
+            member = _context7.sent;
+
+            if (member) {
+              _context7.next = 6;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(404).json({
+              errors: "Couldn't find member"
+            }));
+
+          case 6:
+            requestId = req.params.requestId;
+            _context7.next = 9;
+            return regeneratorRuntime.awrap(Requestx.findById(requestId));
+
+          case 9:
+            request = _context7.sent;
+
+            if (request) {
+              _context7.next = 12;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(404).json({
+              errors: "Request doesn't exist"
+            }));
+
+          case 12:
+            _context7.next = 14;
+            return regeneratorRuntime.awrap(Groups.findById(request.group));
+
+          case 14:
+            group = _context7.sent;
+
+            if (group) {
+              _context7.next = 17;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(404).json({
+              errors: "Group related to request doesn't exist"
+            }));
+
+          case 17:
+            if (!(group.admin._id.toString() !== member._id.toString())) {
+              _context7.next = 19;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(403).json({
+              errors: "You cannot approve requets to groups for which you're not an admin"
+            }));
+
+          case 19:
+            _group = new Group(group);
+            _context7.prev = 20;
+            _context7.next = 23;
+            return regeneratorRuntime.awrap(_group.addMember(request.member));
+
+          case 23:
+            modifiedGroup = _context7.sent;
+
+            if (modified) {
+              _context7.next = 26;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(500).json({
+              errors: "Failure"
+            }));
+
+          case 26:
+            return _context7.abrupt("return", res.status(201).json({
+              success: "Success",
+              group: modifiedGroup
+            }));
+
+          case 29:
+            _context7.prev = 29;
+            _context7.t0 = _context7["catch"](20);
+            return _context7.abrupt("return", res.status(409).json({
+              errors: _context7.t0.message
+            }));
+
+          case 32:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, null, null, [[20, 29]]);
   }
 };

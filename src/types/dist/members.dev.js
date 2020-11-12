@@ -10,6 +10,10 @@ var Groups = require("./../models/groups");
 
 var Topics = require("../models/topics");
 
+var Requestx = require("../models/requestx");
+
+var mongoose = require("mongoose");
+
 var Member =
 /*#__PURE__*/
 function () {
@@ -75,22 +79,55 @@ function () {
       }, null, this);
     }
   }, {
-    key: "followGroup",
-    value: function followGroup() {
-      return regeneratorRuntime.async(function followGroup$(_context3) {
+    key: "requestGroupEntry",
+    value: function requestGroupEntry(groupId) {
+      var rx, request, _request;
+
+      return regeneratorRuntime.async(function requestGroupEntry$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
+              console.log(groupId);
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(Requestx.find({
+                member: this.member._id,
+                group: groupId,
+                approved: false
+              }));
+
+            case 3:
+              rx = _context3.sent;
+
+              if (!(rx.length > 0)) {
+                _context3.next = 6;
+                break;
+              }
+
+              throw new Error("Request was posted is still waiting for approval");
+
+            case 6:
+              request = new Requestx({
+                member: this.member._id,
+                group: groupId
+              });
+              _context3.next = 9;
+              return regeneratorRuntime.awrap(request.save());
+
+            case 9:
+              _request = _context3.sent;
+              return _context3.abrupt("return", _request);
+
+            case 11:
             case "end":
               return _context3.stop();
           }
         }
-      });
+      }, null, this);
     }
   }, {
-    key: "unfollowGroup",
-    value: function unfollowGroup() {
-      return regeneratorRuntime.async(function unfollowGroup$(_context4) {
+    key: "exitGroup",
+    value: function exitGroup() {
+      return regeneratorRuntime.async(function exitGroup$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
