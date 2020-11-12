@@ -372,7 +372,7 @@ module.exports = {
     }, null, null, [[7, 16]]);
   },
   approveMemberEntry: function approveMemberEntry(req, res) {
-    var current_member, member, requestId, request, group, _group, modifiedGroup;
+    var current_member, member, requestId, request, group, _group, modifiedGroup, isRequestApproved;
 
     return regeneratorRuntime.async(function approveMemberEntry$(_context7) {
       while (1) {
@@ -446,7 +446,7 @@ module.exports = {
           case 23:
             modifiedGroup = _context7.sent;
 
-            if (modified) {
+            if (modifiedGroup) {
               _context7.next = 26;
               break;
             }
@@ -456,23 +456,40 @@ module.exports = {
             }));
 
           case 26:
+            request.approved = true;
+            _context7.next = 29;
+            return regeneratorRuntime.awrap(request.save());
+
+          case 29:
+            isRequestApproved = _context7.sent;
+
+            if (isRequestApproved) {
+              _context7.next = 32;
+              break;
+            }
+
+            return _context7.abrupt("return", res.status(500).json({
+              errors: "Couldn't approve request"
+            }));
+
+          case 32:
             return _context7.abrupt("return", res.status(201).json({
               success: "Success",
               group: modifiedGroup
             }));
 
-          case 29:
-            _context7.prev = 29;
+          case 35:
+            _context7.prev = 35;
             _context7.t0 = _context7["catch"](20);
             return _context7.abrupt("return", res.status(409).json({
               errors: _context7.t0.message
             }));
 
-          case 32:
+          case 38:
           case "end":
             return _context7.stop();
         }
       }
-    }, null, null, [[20, 29]]);
+    }, null, null, [[20, 35]]);
   }
 };

@@ -158,8 +158,14 @@ module.exports = {
     let _group = new Group(group);
     try{
       let modifiedGroup = await _group.addMember(request.member);
-      if(!modified){
+      if(!modifiedGroup){
         return res.status(500).json({errors: "Failure"});
+      }
+
+      request.approved = true;
+      let isRequestApproved = await request.save();
+      if(!isRequestApproved){
+        return res.status(500).json({errors: "Couldn't approve request"});
       }
 
       return res.status(201).json({success: "Success", group: modifiedGroup});
