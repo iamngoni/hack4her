@@ -8,7 +8,10 @@ let member = mongoose.Schema({
   surname: {type: String, index: true},
   email: {type: String, lowercase: true, required: [true, "email can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true, unique: true},
   bio: String,
-  image: String,
+  image: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Images'
+  },
   occupation: String,
   dateOfBirth: Date,
   socialProfiles: [

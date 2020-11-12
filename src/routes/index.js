@@ -56,7 +56,8 @@ router.post("/login", [
   check('password', 'Password is required or is less than 6 characters').exists().isLength({min: 6})
 ], authcontroller.login);
 
-router.post("/upload_member_image", [auth,
+router.post("/upload_member_image", [
+  auth,
   uploads.single("avatar")
 ], memberController.postImage);
 

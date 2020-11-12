@@ -7,11 +7,15 @@ class Member{
 
   /**
    * Update member profile
-   * @param {String} path 
+   * @param {String} id
    */
-  async addImage(path){
-    this.member.image = path;
-    this.member.save();
+  async addImage(id){
+    this.member.image = id;
+    this.member.save().then(function(){
+      console.log("Member profile image updated");
+    }).catch(function(error){
+      console.log(error);
+    });
   }
 }
 

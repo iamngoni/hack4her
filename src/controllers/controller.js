@@ -1,6 +1,6 @@
 const Members = require("../models/members");
 const { validationResult } = require('express-validator');
-const Images = require("./../models/images");
+
 module.exports = {
   signup: async function(req, res){
     const errors = validationResult(req);
