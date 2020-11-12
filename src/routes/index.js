@@ -8,6 +8,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const crypto = require('crypto');
 const path = require('path');
 const auth = require("./auth");
+const memberController = require("../controllers/memberController");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -57,7 +58,7 @@ router.post("/login", [
 
 router.post("/upload_member_image", uploads.single("avatar"), authcontroller.postImage); //TODO: protect this route
 
-// User information
-router.get("/member_info", auth, authcontroller.getMemberDetails);
+// Member information
+router.get("/member_info", auth, memberController.getMemberDetails);
 
 module.exports = router;
