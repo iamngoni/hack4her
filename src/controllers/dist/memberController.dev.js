@@ -1,20 +1,14 @@
 "use strict";
 
-var Images = require("./../models/images");
-
-var Members = require("../models/members");
-
 var Member = require("../types/members");
 
 var mongoose = require("mongoose");
 
 var config = require("./../config");
 
-var Groups = require("../models/groups");
-
-var Requestx = require("../models/requestx");
-
 var Group = require("../types/groups");
+
+var models = require("./../models");
 
 var connect = mongoose.createConnection(config.db, {
   useNewUrlParser: true,
@@ -35,7 +29,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id).populate('image'));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id).populate('image'));
 
           case 3:
             member = _context.sent;
@@ -77,7 +71,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context2.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context2.sent;
@@ -93,7 +87,7 @@ module.exports = {
 
           case 6:
             _member = new Member(member);
-            image = new Images({
+            image = new models.Images({
               filename: req.file.filename,
               fileId: req.file.id
             });
@@ -137,7 +131,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context3.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context3.sent;
@@ -247,7 +241,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context5.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context5.sent;
@@ -319,7 +313,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context6.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context6.sent;
@@ -380,7 +374,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context7.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context7.sent;
@@ -397,7 +391,7 @@ module.exports = {
           case 6:
             requestId = req.params.requestId;
             _context7.next = 9;
-            return regeneratorRuntime.awrap(Requestx.findById(requestId));
+            return regeneratorRuntime.awrap(models.Requestx.findById(requestId));
 
           case 9:
             request = _context7.sent;
@@ -413,7 +407,7 @@ module.exports = {
 
           case 12:
             _context7.next = 14;
-            return regeneratorRuntime.awrap(Groups.findById(request.group));
+            return regeneratorRuntime.awrap(models.Groups.findById(request.group));
 
           case 14:
             group = _context7.sent;

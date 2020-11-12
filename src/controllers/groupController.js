@@ -1,10 +1,9 @@
-const Groups = require("../models/groups");
-const Members = require("../models/members");
+const models = require("./../models");
 const Group = require("./../types/groups");
 
 module.exports = {
   getTopics: async function(req, res){
-    let group = await Groups.findById(req.params.groupId);
+    let group = await models.Groups.findById(req.params.groupId);
     if(!group){
       return res.status(404).json({errors: "Group not found"});
     }
@@ -15,18 +14,18 @@ module.exports = {
   },
 
   getAllGroups: async function(req, res){
-    let groups = await Groups.find();
+    let groups = await models.Groups.find();
     return res.status(200).json({success: "Success", groups});
   },
 
   addMember: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
     }
 
-    let group = await Groups.findById(req.params.groupId);
+    let group = await models.Groups.findById(req.params.groupId);
     if(!group){
       return res.status(404).json({errors: "Group not found"});
     }

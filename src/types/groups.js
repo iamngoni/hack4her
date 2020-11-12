@@ -1,4 +1,4 @@
-const Topics = require("./../models/topics");
+const models = require("./../models/index");
 
 class Group{
   /**
@@ -24,7 +24,7 @@ class Group{
    * Get list of topics in a group
    */
   async topics(){
-    let topics = await Topics.find({group: this.group._id});
+    let topics = await models.Topics.find({group: this.group._id});
     return topics;
   }
 
@@ -32,7 +32,7 @@ class Group{
    * Get number of topics in a group
    */
   async numberOfTopics(){
-    let topics = await Topics.find({group: this.group._id});
+    let topics = await models.Topics.find({group: this.group._id});
     return topics.length;
   }
 

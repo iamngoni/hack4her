@@ -6,13 +6,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Groups = require("./../models/groups");
-
-var Topics = require("../models/topics");
-
-var Requestx = require("../models/requestx");
-
-var mongoose = require("mongoose");
+var models = require("./../models");
 
 var Member =
 /*#__PURE__*/
@@ -58,7 +52,7 @@ function () {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              group = new Groups({
+              group = new models.Groups({
                 name: name,
                 description: description,
                 admin: this.member._id,
@@ -89,7 +83,7 @@ function () {
             case 0:
               console.log(groupId);
               _context3.next = 3;
-              return regeneratorRuntime.awrap(Requestx.find({
+              return regeneratorRuntime.awrap(models.Requestx.find({
                 member: this.member._id,
                 group: groupId,
                 approved: false
@@ -149,7 +143,7 @@ function () {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              topic = new Topics({
+              topic = new models.Topics({
                 title: title,
                 description: description,
                 group: groupId,

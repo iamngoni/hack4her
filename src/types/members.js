@@ -1,7 +1,4 @@
-const Groups = require("./../models/groups");
-const Topics = require("../models/topics");
-const Requestx = require("../models/requestx");
-const mongoose = require("mongoose");
+const models = require("./../models");
 
 class Member{
   constructor(member){
@@ -22,7 +19,7 @@ class Member{
   }
 
   async createGroup(name, description){
-    let group = new Groups({
+    let group = new models.Groups({
       name: name,
       description: description,
       admin: this.member._id,
@@ -34,7 +31,7 @@ class Member{
 
   async requestGroupEntry(groupId){
     console.log(groupId);
-    let rx = await Requestx.find({member: this.member._id, group: groupId, approved: false});
+    let rx = await models.Requestx.find({member: this.member._id, group: groupId, approved: false});
 
     if(rx.length > 0){
       throw new Error("Request was posted is still waiting for approval");
@@ -58,7 +55,7 @@ class Member{
   }
 
   async createTopic(groupId, title, description){
-    let topic = new Topics({
+    let topic = new models.Topics({
       title: title,
       description: description,
       group: groupId,

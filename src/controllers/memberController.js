@@ -1,11 +1,8 @@
-const Images = require("./../models/images");
-const Members = require("../models/members");
 const Member = require("../types/members");
 const mongoose = require("mongoose");
 const config = require("./../config");
-const Groups = require("../models/groups");
-const Requestx = require("../models/requestx");
 const Group = require("../types/groups");
+const models = require("./../models");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -18,7 +15,7 @@ connect.once("open", function(){
 module.exports = {
   getMemberDetails: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id).populate('image');
+    let member = await models.Members.findById(current_member.id).populate('image');
     if(!member){
       return res.status(404).json({errors: "member details not found"});
     }
@@ -26,13 +23,13 @@ module.exports = {
   },
   postImage: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
     }
 
     let _member = new Member(member);
-    let image = new Images({
+    let image = new models.Images({
       filename: req.file.filename,
       fileId: req.file.id
     });
@@ -46,7 +43,7 @@ module.exports = {
   
   createGroup: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
     }
@@ -92,7 +89,7 @@ module.exports = {
 
   createTopic: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Couldn't find member"});
     }
@@ -115,7 +112,7 @@ module.exports = {
 
   requestGroupEntry: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
     }
@@ -135,18 +132,18 @@ module.exports = {
 
   approveMemberEntry: async function(req, res){
     let current_member = req.member;
-    let member = await Members.findById(current_member.id);
+    let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Couldn't find member"});
     }
 
     let requestId = req.params.requestId;
-    let request = await Requestx.findById(requestId);
+    let request = await models.Requestx.findById(requestId);
     if(!request){
       return res.status(404).json({errors: "Request doesn't exist"});
     }
 
-    let group = await Groups.findById(request.group);
+    let group = await models.Groups.findById(request.group);
     if(!group){
       return res.status(404).json({errors: "Group related to request doesn't exist"});
     }

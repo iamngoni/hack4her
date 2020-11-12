@@ -1,4 +1,4 @@
-const Members = require("../models/members");
+const models = require("./../models");
 const { validationResult } = require('express-validator');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let member = new Members({
+    let member = new models.Members({
       firstName: req.body.firstName,
       middleName: req.body.middleName ?? undefined,
       surname: req.body.surname,
@@ -39,7 +39,7 @@ module.exports = {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let member = await Members.findOne({email: req.body.email});
+    let member = await models.Members.findOne({email: req.body.email});
 
     if(!member){
       return res.status(404).json({errors: "Email doesn't exist"});

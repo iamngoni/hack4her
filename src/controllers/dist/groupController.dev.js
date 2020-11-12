@@ -1,8 +1,6 @@
 "use strict";
 
-var Groups = require("../models/groups");
-
-var Members = require("../models/members");
+var models = require("./../models");
 
 var Group = require("./../types/groups");
 
@@ -15,7 +13,7 @@ module.exports = {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return regeneratorRuntime.awrap(Groups.findById(req.params.groupId));
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
 
           case 2:
             group = _context.sent;
@@ -55,7 +53,7 @@ module.exports = {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return regeneratorRuntime.awrap(Groups.find());
+            return regeneratorRuntime.awrap(models.Groups.find());
 
           case 2:
             groups = _context2.sent;
@@ -80,7 +78,7 @@ module.exports = {
           case 0:
             current_member = req.member;
             _context3.next = 3;
-            return regeneratorRuntime.awrap(Members.findById(current_member.id));
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
 
           case 3:
             member = _context3.sent;
@@ -96,7 +94,7 @@ module.exports = {
 
           case 6:
             _context3.next = 8;
-            return regeneratorRuntime.awrap(Groups.findById(req.params.groupId));
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
 
           case 8:
             group = _context3.sent;

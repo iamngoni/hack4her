@@ -6,7 +6,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Topics = require("./../models/topics");
+var models = require("./../models/index");
 
 var Group =
 /*#__PURE__*/
@@ -72,7 +72,7 @@ function () {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return regeneratorRuntime.awrap(Topics.find({
+              return regeneratorRuntime.awrap(models.Topics.find({
                 group: this.group._id
               }));
 
@@ -100,7 +100,7 @@ function () {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return regeneratorRuntime.awrap(Topics.find({
+              return regeneratorRuntime.awrap(models.Topics.find({
                 group: this.group._id
               }));
 
