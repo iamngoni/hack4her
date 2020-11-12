@@ -56,7 +56,9 @@ router.post("/login", [
   check('password', 'Password is required or is less than 6 characters').exists().isLength({min: 6})
 ], authcontroller.login);
 
-router.post("/upload_member_image", uploads.single("avatar"), authcontroller.postImage); //TODO: protect this route
+router.post("/upload_member_image", [auth,
+  uploads.single("avatar")
+], memberController.postImage);
 
 // Member information
 router.get("/member_info", auth, memberController.getMemberDetails);

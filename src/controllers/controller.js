@@ -1,7 +1,6 @@
 const Members = require("../models/members");
 const { validationResult } = require('express-validator');
 const Images = require("./../models/images");
-
 module.exports = {
   signup: async function(req, res){
     const errors = validationResult(req);
@@ -52,20 +51,4 @@ module.exports = {
 
     return res.status(200).json({success: "Success", data: member.toAuthJson()})
   },
-  
-  postImage: async function(req, res){
-    let image = new Images({
-      filename: req.file.filename,
-      fileId: req.file.id
-    });
-    let _image = await image.save();
-    if(!_image){
-      return res.status(500).json({errors: "Couldn't save image"});
-    }
-
-    return res.status(200).json({
-      success: "Success",
-      image: _image
-    });
-  }
 }
