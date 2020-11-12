@@ -1,4 +1,5 @@
 const Members = require("./../models/members");
+const Groups = require("./../models/groups");
 
 class Member{
   constructor(member){
@@ -18,8 +19,14 @@ class Member{
     });
   }
 
-  async createGroup(){
-
+  async createGroup(name, description){
+    let group = new Groups({
+      name: name,
+      description: description,
+      admin: this.member._id
+    });
+    let _group = await group.save();
+    return _group;
   }
 
   async followGroup(){
@@ -39,7 +46,7 @@ class Member{
   }
 
   vote(){
-    
+
   }
 }
 

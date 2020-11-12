@@ -63,5 +63,6 @@ router.post("/upload_member_image", [
 
 // Member information
 router.get("/member_info", auth, memberController.getMemberDetails);
+router.get("/member_avatar/:filename", memberController.getMemberAvatar);
 
 module.exports = router;
