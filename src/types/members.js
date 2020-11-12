@@ -1,5 +1,6 @@
 const Members = require("./../models/members");
 const Groups = require("./../models/groups");
+const Topics = require("../models/topics");
 
 class Member{
   constructor(member){
@@ -41,8 +42,16 @@ class Member{
 
   }
 
-  createTopic(){
+  async createTopic(groupId, title, description){
+    let topic = new Topics({
+      title: title,
+      description: description,
+      group: groupId,
+      initiator: this.member._id
+    });
 
+    let _topic = await topic.save();
+    return _topic;
   }
 
   vote(){

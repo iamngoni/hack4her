@@ -49,12 +49,19 @@ module.exports = {
     }
 
     let _member = new Member(member);
-    let group = await _member.createGroup(req.body.name, req.body.description);
-    if(!group){
-      return res.status(500).json({errors: "Couldn't create group"});
-    }
+    try{
+      let group = await _member.createGroup(req.body.name, req.body.description);
+      if(!group){
+        return res.status(500).json({errors: "Couldn't create group"});
+      }
 
-    return res.status(200).json({success: "Success", group});
+      return res.status(200).json({success: "Success", group});
+    }catch (error){
+      if(error.code == 11000){
+        return res.status(400).json({errors: "Group name already registered"});
+      }
+      return res.status(500).json({errors: "Server error"});
+    }   
   },
   
   getMemberAvatar: async function(req, res){
@@ -78,5 +85,28 @@ module.exports = {
         });
       }
     });
+  },
+
+  createTopic: async function(req, res){
+    let current_member = req.member;
+    let member = await Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "Couldn't find member"});
+    }
+
+    let _member = new Member(member);
+    try{
+      let topic = await _member.createTopic(req.params.groupId, req.body.title, req.body.description);
+      if(!topic){
+        return res.status(500).json({errors: "Couldn't save topic"});
+      }
+
+      return res.status(200).json({success: "Success", topic});
+    }catch(error){
+      if(error.code == 11000){
+        return res.status(400).json({errors: "Topic already exists"});
+      }
+      return res.status(500).json({errors: "Server error"});
+    }
   }
 }

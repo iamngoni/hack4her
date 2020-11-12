@@ -67,5 +67,6 @@ router.get("/member_avatar/:filename", memberController.getMemberAvatar);
 
 // Group Activity
 router.post("/groups/create", auth, memberController.createGroup);
+router.post("/groups/:groupId/topics/create", auth, memberController.createTopic);
 
 module.exports = router;

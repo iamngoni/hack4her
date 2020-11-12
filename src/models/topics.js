@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
 let topic = mongoose.Schema({
-  title: String,
-  details: String,
+  title: {
+    type: String,
+    unique: true
+  },
+  description: String,
   group: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Groups'
