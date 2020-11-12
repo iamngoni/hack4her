@@ -9,6 +9,12 @@ let group = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Members'
   },
+  topics: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Topics'
+    }
+  ],
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,
