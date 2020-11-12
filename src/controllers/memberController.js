@@ -188,5 +188,51 @@ module.exports = {
     }catch(error){
       return res.status(500).json({errors: error.message});
     }
+  },
+
+  makeAPost: async function(req, res){
+    try{
+      let current_member = req.member;
+      let member = await models.Members.findById(current_member.id);
+      if(!member){
+        return res.status(404).json({errors: "Member not found"});
+      }
+
+      let group = await models.Groups.findById(req.params.groupId);
+      if(!group){
+        return res.status(404).json({errors: "Group not found"});
+      }
+
+      let topic = await models.Topics.findById(req.params.topicId);
+      if(!topic){
+        return res.status(404).json({errors: "Topic not found"});
+      }
+
+      let _group = new types.Group(group);
+      let topics = await _group.topics();
+
+      let match = topics.filter((tpx) => tpx._id.toString() !== topic._id.toString());
+
+      if(match.length > 0){
+        return res.status(403).json({errors: "Topic doesn't belong to selected group"});
+      }
+
+      let _member = new types.Member(member);
+      let post = await _member.createPost(topic._id, req.body.text);
+      if(!post){
+        return res.status(500).json({errors: "Couldn't create post"});
+      }
+
+      let _topic = new types.Topic(topic);
+      let _topc = await _topic.addPost(post._id);
+      if(!_topc){
+        return res.status(500).json({errors: "Couldn't save post"});
+      }
+
+      return res.status(200).json({success: "Success", post});
+    }catch(error){
+      console.log(error);
+      return res.status(500).json({errors: error.message}); 
+    }
   }
 }

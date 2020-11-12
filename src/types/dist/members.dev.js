@@ -172,15 +172,40 @@ function () {
     }
   }, {
     key: "createPost",
-    value: function createPost() {}
+    value: function createPost(topicId, text) {
+      var post, _post;
+
+      return regeneratorRuntime.async(function createPost$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              post = new models.Posts({
+                topic: topicId,
+                text: text,
+                member: this.member._id
+              });
+              _context5.next = 3;
+              return regeneratorRuntime.awrap(post.save());
+
+            case 3:
+              _post = _context5.sent;
+              return _context5.abrupt("return", _post);
+
+            case 5:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, null, this);
+    }
   }, {
     key: "createTopic",
     value: function createTopic(groupId, title, description) {
       var topic, _topic;
 
-      return regeneratorRuntime.async(function createTopic$(_context5) {
+      return regeneratorRuntime.async(function createTopic$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
               topic = new models.Topics({
                 title: title,
@@ -188,16 +213,16 @@ function () {
                 group: groupId,
                 initiator: this.member._id
               });
-              _context5.next = 3;
+              _context6.next = 3;
               return regeneratorRuntime.awrap(topic.save());
 
             case 3:
-              _topic = _context5.sent;
-              return _context5.abrupt("return", _topic);
+              _topic = _context6.sent;
+              return _context6.abrupt("return", _topic);
 
             case 5:
             case "end":
-              return _context5.stop();
+              return _context6.stop();
           }
         }
       }, null, this);

@@ -544,5 +544,136 @@ module.exports = {
         }
       }
     }, null, null, [[7, 16]]);
+  },
+  makeAPost: function makeAPost(req, res) {
+    var current_member, member, group, topic, _group, topics, match, _member, post, _topic, _topc;
+
+    return regeneratorRuntime.async(function makeAPost$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.prev = 0;
+            current_member = req.member;
+            _context9.next = 4;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 4:
+            member = _context9.sent;
+
+            if (member) {
+              _context9.next = 7;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(404).json({
+              errors: "Member not found"
+            }));
+
+          case 7:
+            _context9.next = 9;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
+
+          case 9:
+            group = _context9.sent;
+
+            if (group) {
+              _context9.next = 12;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 12:
+            _context9.next = 14;
+            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId));
+
+          case 14:
+            topic = _context9.sent;
+
+            if (topic) {
+              _context9.next = 17;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(404).json({
+              errors: "Topic not found"
+            }));
+
+          case 17:
+            _group = new types.Group(group);
+            _context9.next = 20;
+            return regeneratorRuntime.awrap(_group.topics());
+
+          case 20:
+            topics = _context9.sent;
+            match = topics.filter(function (tpx) {
+              return tpx._id.toString() !== topic._id.toString();
+            });
+
+            if (!(match.length > 0)) {
+              _context9.next = 24;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(403).json({
+              errors: "Topic doesn't belong to selected group"
+            }));
+
+          case 24:
+            _member = new types.Member(member);
+            _context9.next = 27;
+            return regeneratorRuntime.awrap(_member.createPost(topic._id, req.body.text));
+
+          case 27:
+            post = _context9.sent;
+
+            if (post) {
+              _context9.next = 30;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(500).json({
+              errors: "Couldn't create post"
+            }));
+
+          case 30:
+            _topic = new types.Topic(topic);
+            _context9.next = 33;
+            return regeneratorRuntime.awrap(_topic.addPost(post._id));
+
+          case 33:
+            _topc = _context9.sent;
+
+            if (_topc) {
+              _context9.next = 36;
+              break;
+            }
+
+            return _context9.abrupt("return", res.status(500).json({
+              errors: "Couldn't save post"
+            }));
+
+          case 36:
+            return _context9.abrupt("return", res.status(200).json({
+              success: "Success",
+              post: post
+            }));
+
+          case 39:
+            _context9.prev = 39;
+            _context9.t0 = _context9["catch"](0);
+            console.log(_context9.t0);
+            return _context9.abrupt("return", res.status(500).json({
+              errors: _context9.t0.message
+            }));
+
+          case 43:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, null, null, [[0, 39]]);
   }
 };

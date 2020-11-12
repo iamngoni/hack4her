@@ -63,8 +63,14 @@ class Member{
     return _group;
   }
 
-  createPost(){
-
+  async createPost(topicId, text){
+    let post = new models.Posts({
+      topic: topicId,
+      text: text,
+      member: this.member._id
+    });
+    let _post = await post.save();
+    return _post;
   }
 
   async createTopic(groupId, title, description){
