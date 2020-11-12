@@ -1,5 +1,6 @@
 const Members = require("../models/members");
 const { validationResult } = require('express-validator');
+const Images = require("./../models/images");
 
 module.exports = {
   signup: async function(req, res){
@@ -53,6 +54,27 @@ module.exports = {
   },
   
   postImage: async function(req, res){
+    let image = new Images({
+      filename: req.file.filename,
+      fileId: req.file.id
+    });
+    let _image = await image.save();
+    if(!_image){
+      return res.status(500).json({errors: "Couldn't save image"});
+    }
 
+    return res.status(200).json({
+      success: "Success",
+      image: _image
+    });
+  },
+
+  getMemberDetails: async function(req, res){
+    let current_member = req.member;
+    let member = await Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "member details not found"});
+    }
+    res.status(200).json({name: member.fullName, email: member.email, bio: member.bio, image: member.image, occupation: member.occupation, dateOfBirth: member.dateOfBirth, socialProfiles: member.socialProfiles});
   }
 }

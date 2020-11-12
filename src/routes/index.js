@@ -1,10 +1,13 @@
 const authcontroller = require("../controllers/controller");
 const router = require("express").Router();
 const { check } = require('express-validator');
-
-const { upload } = require("../app");
 const config = require("./../config");
 const mongoose = require("mongoose");
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const crypto = require('crypto');
+const path = require('path');
+const auth = require("./auth");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -13,6 +16,28 @@ let gfs;
 connect.once("open", function(){
   gfs = new mongoose.mongo.GridFSBucket(connect.db, {bucketName: "uploads"});
 });
+
+// GridFs Storage Engine
+const storage = new GridFsStorage({
+  url: config.db,
+  file(req, file) {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (error, buffer) => {
+        if (error) {
+          return reject(error);
+        }
+        const filename = buffer.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename,
+          bucketName: 'uploads',
+        };
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+
+const uploads = multer({ storage });
 
 // Auth Routes
 router.post("/signup", [
@@ -30,6 +55,9 @@ router.post("/login", [
   check('password', 'Password is required or is less than 6 characters').exists().isLength({min: 6})
 ], authcontroller.login);
 
-router.post("/upload_member_image", upload.single("avatar"), authcontroller.postImage);
+router.post("/upload_member_image", uploads.single("avatar"), authcontroller.postImage); //TODO: protect this route
+
+// User information
+router.get("/member_info", auth, authcontroller.getMemberDetails);
 
 module.exports = router;

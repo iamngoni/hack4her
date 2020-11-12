@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 let image = mongoose.Schema({
+  fileId: String,
   filename: String
 }, {timestamps: true});
 
