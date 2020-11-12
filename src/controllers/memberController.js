@@ -168,5 +168,25 @@ module.exports = {
     }catch(error){
       return res.status(409).json({errors: error.message});
     }
+  },
+
+  exitGroup: async function(req, res){
+    let current_member = req.member;
+    let member = await models.Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "Member not found"});
+    }
+
+    let _member = new types.Member(member);
+    try{
+      let group = await _member.exitGroup(req.params.groupId);
+      if(!group){
+        return res.status(400).json({errors: "Failed to exit"});
+      }
+
+      return res.status(200).json({success: "Success", group});
+    }catch(error){
+      return res.status(500).json({errors: error.message});
+    }
   }
 }

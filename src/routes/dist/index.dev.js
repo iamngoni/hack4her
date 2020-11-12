@@ -77,4 +77,5 @@ router.get("/groups/list", auth, groupController.getAllGroups);
 router.get("/groups/:groupId/members/add/:memberId", auth, groupController.addMember);
 router.get("/groups/:groupId/request_entry", auth, memberController.requestGroupEntry);
 router.get("/groups/requests/approve/:requestId", auth, memberController.approveMemberEntry);
+router.get("/groups/:groupId/exit", auth, memberController.exitGroup);
 module.exports = router;

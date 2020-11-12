@@ -120,16 +120,55 @@ function () {
     }
   }, {
     key: "exitGroup",
-    value: function exitGroup() {
+    value: function exitGroup(groupId) {
+      var _this = this;
+
+      var group, members, _group;
+
       return regeneratorRuntime.async(function exitGroup$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(models.Groups.findById(groupId));
+
+            case 2:
+              group = _context4.sent;
+
+              if (group) {
+                _context4.next = 5;
+                break;
+              }
+
+              throw new Error("Group doesn't exists");
+
+            case 5:
+              if (!(this.member._id.toString() == group.admin.toString())) {
+                _context4.next = 7;
+                break;
+              }
+
+              throw new Error("Admin cannot leave group");
+
+            case 7:
+              members = group.members;
+              members = members.filter(function (membr) {
+                return membr.toString() !== _this.member._id.toString();
+              });
+              group.members = members;
+              _context4.next = 12;
+              return regeneratorRuntime.awrap(group.save());
+
+            case 12:
+              _group = _context4.sent;
+              return _context4.abrupt("return", _group);
+
+            case 14:
             case "end":
               return _context4.stop();
           }
         }
-      });
+      }, null, this);
     }
   }, {
     key: "createPost",

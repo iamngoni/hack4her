@@ -46,8 +46,21 @@ class Member{
     return _request;
   }
 
-  async exitGroup(){
+  async exitGroup(groupId){
+    let group = await models.Groups.findById(groupId);
+    if(!group){
+      throw new Error ("Group doesn't exists");
+    }
 
+    if(this.member._id.toString() == group.admin.toString()){
+      throw new Error("Admin cannot leave group");
+    }
+
+    let members = group.members;
+    members = members.filter((membr) => membr.toString() !== this.member._id.toString());
+    group.members = members;
+    let _group = await group.save();
+    return _group;
   }
 
   createPost(){

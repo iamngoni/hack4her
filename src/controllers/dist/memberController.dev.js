@@ -483,5 +483,66 @@ module.exports = {
         }
       }
     }, null, null, [[20, 35]]);
+  },
+  exitGroup: function exitGroup(req, res) {
+    var current_member, member, _member, group;
+
+    return regeneratorRuntime.async(function exitGroup$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            current_member = req.member;
+            _context8.next = 3;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 3:
+            member = _context8.sent;
+
+            if (member) {
+              _context8.next = 6;
+              break;
+            }
+
+            return _context8.abrupt("return", res.status(404).json({
+              errors: "Member not found"
+            }));
+
+          case 6:
+            _member = new types.Member(member);
+            _context8.prev = 7;
+            _context8.next = 10;
+            return regeneratorRuntime.awrap(_member.exitGroup(req.params.groupId));
+
+          case 10:
+            group = _context8.sent;
+
+            if (group) {
+              _context8.next = 13;
+              break;
+            }
+
+            return _context8.abrupt("return", res.status(400).json({
+              errors: "Failed to exit"
+            }));
+
+          case 13:
+            return _context8.abrupt("return", res.status(200).json({
+              success: "Success",
+              group: group
+            }));
+
+          case 16:
+            _context8.prev = 16;
+            _context8.t0 = _context8["catch"](7);
+            return _context8.abrupt("return", res.status(500).json({
+              errors: _context8.t0.message
+            }));
+
+          case 19:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, null, null, [[7, 16]]);
   }
 };
