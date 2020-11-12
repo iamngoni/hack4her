@@ -1,0 +1,4 @@
+{
+  "vscode.tsc.compiler.alertTSConfigChanges": "never",
+  "compile-hero.disable-compile-files-on-did-save-code": false
+}

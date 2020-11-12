@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const path = require('path');
 const auth = require("./auth");
 const memberController = require("../controllers/memberController");
+const groupController = require("../controllers/groupController");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -68,5 +69,8 @@ router.get("/member_avatar/:filename", memberController.getMemberAvatar);
 // Group Activity
 router.post("/groups/create", auth, memberController.createGroup);
 router.post("/groups/:groupId/topics/create", auth, memberController.createTopic);
+router.get("/groups/:groupId/topics", auth, groupController.getTopics);
+router.get("/groups/list", auth, groupController.getAllGroups);
+router.get("/groups/:groupId/members/add/:memberId", auth, groupController.addMember);
 
 module.exports = router;

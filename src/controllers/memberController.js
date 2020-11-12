@@ -3,6 +3,7 @@ const Members = require("../models/members");
 const Member = require("../types/members");
 const mongoose = require("mongoose");
 const config = require("./../config");
+const Groups = require("../models/groups");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -38,7 +39,7 @@ module.exports = {
       return res.status(500).json({errors: "Couldn't save image"});
     }
     await _member.addImage(_image._id);
-    return res.status(200).json({success: "Success"});
+    return res.status(201).json({success: "Success"});
   },
   
   createGroup: async function(req, res){
@@ -55,7 +56,7 @@ module.exports = {
         return res.status(500).json({errors: "Couldn't create group"});
       }
 
-      return res.status(200).json({success: "Success", group});
+      return res.status(201).json({success: "Success", group});
     }catch (error){
       if(error.code == 11000){
         return res.status(400).json({errors: "Group name already registered"});
@@ -101,7 +102,7 @@ module.exports = {
         return res.status(500).json({errors: "Couldn't save topic"});
       }
 
-      return res.status(200).json({success: "Success", topic});
+      return res.status(201).json({success: "Success", topic});
     }catch(error){
       if(error.code == 11000){
         return res.status(400).json({errors: "Topic already exists"});

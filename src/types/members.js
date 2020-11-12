@@ -1,4 +1,3 @@
-const Members = require("./../models/members");
 const Groups = require("./../models/groups");
 const Topics = require("../models/topics");
 
@@ -24,7 +23,8 @@ class Member{
     let group = new Groups({
       name: name,
       description: description,
-      admin: this.member._id
+      admin: this.member._id,
+      members: [this.member._id]
     });
     let _group = await group.save();
     return _group;
@@ -51,6 +51,7 @@ class Member{
     });
 
     let _topic = await topic.save();
+
     return _topic;
   }
 
