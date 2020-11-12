@@ -45,5 +45,21 @@ module.exports = {
     }catch(error){
       return res.status(409).json({errors: error.message});
     }
+  },
+
+  getMembers: async function(req, res){
+    let current_member = req.member;
+    let member = await models.Members.findById(current_member.id);
+    if(!member){
+      return res.status(404).json({errors: "Couldn't find member"});
+    }
+
+    let group = await models.Groups.findById(req.params.groupId).populate("members");
+    if(!group){
+      return res.status(404).json({errors: "Group not found"});
+    }
+
+    let _group = new types.Group(group);
+    return res.status(200).json({success: "Success", group: group.name, members: _group.getMembers()});
   }
 };

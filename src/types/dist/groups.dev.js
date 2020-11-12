@@ -173,6 +173,11 @@ function () {
         }
       }, null, this);
     }
+  }, {
+    key: "getMembers",
+    value: function getMembers() {
+      return this.group.members;
+    }
   }]);
 
   return Group;

@@ -155,5 +155,59 @@ module.exports = {
         }
       }
     }, null, null, [[14, 23]]);
+  },
+  getMembers: function getMembers(req, res) {
+    var current_member, member, group, _group;
+
+    return regeneratorRuntime.async(function getMembers$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            current_member = req.member;
+            _context4.next = 3;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 3:
+            member = _context4.sent;
+
+            if (member) {
+              _context4.next = 6;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Couldn't find member"
+            }));
+
+          case 6:
+            _context4.next = 8;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId).populate("members"));
+
+          case 8:
+            group = _context4.sent;
+
+            if (group) {
+              _context4.next = 11;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 11:
+            _group = new types.Group(group);
+            return _context4.abrupt("return", res.status(200).json({
+              success: "Success",
+              group: group.name,
+              members: _group.getMembers()
+            }));
+
+          case 13:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    });
   }
 };

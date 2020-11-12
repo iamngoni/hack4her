@@ -55,6 +55,10 @@ class Group{
     let _group = await this.group.save();
     return _group;
   }
+
+  getMembers(){
+    return this.group.members;
+  }
 }
 
 module.exports = Group;
