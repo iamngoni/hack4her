@@ -14,6 +14,10 @@ class Topic{
     let _topic = await this.topic.save();
     return _topic;
   }
+
+  getPosts(){
+    return this.topic.posts;
+  }
 }
 
 module.exports = Topic;

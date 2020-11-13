@@ -53,6 +53,11 @@ function () {
         }
       }, null, this);
     }
+  }, {
+    key: "getPosts",
+    value: function getPosts() {
+      return this.topic.posts;
+    }
   }]);
 
   return Topic;

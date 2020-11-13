@@ -10,6 +10,7 @@ const path = require('path');
 const auth = require("./auth");
 const memberController = require("../controllers/memberController");
 const groupController = require("../controllers/groupController");
+const topicController = require("../controllers/topicController");
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -79,6 +80,6 @@ router.get("/groups/:groupId/members", auth, groupController.getMembers);
 router.get("/groups/:groupId/topics/:topicId/posts/new", auth, memberController.makeAPost);
 
 // Topic Activity
-
+router.get("/groups/:groupId/topics/:topicId/posts", auth, topicController.getPosts);
 
 module.exports = router;

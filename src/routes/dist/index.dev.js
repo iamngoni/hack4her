@@ -25,6 +25,8 @@ var memberController = require("../controllers/memberController");
 
 var groupController = require("../controllers/groupController");
 
+var topicController = require("../controllers/topicController");
+
 var connect = mongoose.createConnection(config.db, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -81,4 +83,5 @@ router.get("/groups/:groupId/exit", auth, memberController.exitGroup);
 router.get("/groups/:groupId/members", auth, groupController.getMembers);
 router.get("/groups/:groupId/topics/:topicId/posts/new", auth, memberController.makeAPost); // Topic Activity
 
+router.get("/groups/:groupId/topics/:topicId/posts", auth, topicController.getPosts);
 module.exports = router;
