@@ -77,7 +77,10 @@ router.get("/groups/:groupId/exit", auth, controllers.MEMBERS.exitGroup);
 router.get("/groups/:groupId/members", auth, controllers.GROUPS.getMembers);
 router.get("/groups/:groupId/topics/:topicId/posts/new", auth, controllers.MEMBERS.makeAPost);
 router.get("/groups/:groupId/topics/:topicId/posts", auth, controllers.TOPICS.getPosts);
-router.post("/groups/:groupId/topics/:topicId/posts/:postId/comment", auth, controllers.POSTS.comment); // Topic Activity
+router.post("/groups/:groupId/topics/:topicId/posts/:postId/comment", auth, controllers.POSTS.comment);
+router.get("/groups/:groupId/requests", auth, controllers.GROUPS.getUnApprovedRequests);
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments", auth, controllers.POSTS.getComments);
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getCommentsCount); // Topic Activity
 
 router.get("/groups/:groupId/topics/:topicId/vote", auth, controllers.VOTES.vote);
 module.exports = router;

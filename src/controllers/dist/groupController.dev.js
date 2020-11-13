@@ -209,5 +209,70 @@ module.exports = {
         }
       }
     });
+  },
+  getUnApprovedRequests: function getUnApprovedRequests(req, res) {
+    var current_member, member, group, _group, requests;
+
+    return regeneratorRuntime.async(function getUnApprovedRequests$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            current_member = req.member;
+            _context5.next = 4;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 4:
+            member = _context5.sent;
+
+            if (member) {
+              _context5.next = 7;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(404).json({
+              errors: "Member not found"
+            }));
+
+          case 7:
+            _context5.next = 9;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
+
+          case 9:
+            group = _context5.sent;
+
+            if (group) {
+              _context5.next = 12;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 12:
+            _group = new types.Group(group);
+            _context5.next = 15;
+            return regeneratorRuntime.awrap(_group.getRequests());
+
+          case 15:
+            requests = _context5.sent;
+            return _context5.abrupt("return", res.status(200).json({
+              requests: requests
+            }));
+
+          case 19:
+            _context5.prev = 19;
+            _context5.t0 = _context5["catch"](0);
+            res.status(500).json({
+              errors: _context5.t0.message
+            });
+
+          case 22:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[0, 19]]);
   }
 };

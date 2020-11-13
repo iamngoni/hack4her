@@ -6,7 +6,7 @@ var types = require("../types");
 
 module.exports = {
   getPosts: function getPosts(req, res) {
-    var current_member, member, topic, _topic, posts;
+    var current_member, member, group, topic, _topic, posts;
 
     return regeneratorRuntime.async(function getPosts$(_context) {
       while (1) {
@@ -30,13 +30,29 @@ module.exports = {
 
           case 6:
             _context.next = 8;
-            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId).populate("posts"));
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
 
           case 8:
+            group = _context.sent;
+
+            if (group) {
+              _context.next = 11;
+              break;
+            }
+
+            return _context.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 11:
+            _context.next = 13;
+            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId).populate("posts"));
+
+          case 13:
             topic = _context.sent;
 
             if (topic) {
-              _context.next = 11;
+              _context.next = 16;
               break;
             }
 
@@ -44,19 +60,19 @@ module.exports = {
               errors: "Topic not found"
             }));
 
-          case 11:
+          case 16:
             _topic = new types.Topic(topic);
-            _context.next = 14;
+            _context.next = 19;
             return regeneratorRuntime.awrap(_topic.getPosts());
 
-          case 14:
+          case 19:
             posts = _context.sent;
             return _context.abrupt("return", res.status(200).json({
               success: "Success",
               posts: posts
             }));
 
-          case 16:
+          case 21:
           case "end":
             return _context.stop();
         }

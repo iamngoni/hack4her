@@ -16,7 +16,7 @@ module.exports = {
         return res.status(404).json({errors: "No topic found"});
       }
 
-      let exists = models.Votes.find({
+      let exists = await models.Votes.find({
         topic: topic._id,
         member: member._id
       });

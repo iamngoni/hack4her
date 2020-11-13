@@ -98,6 +98,11 @@ module.exports = {
       return res.status(404).json({errors: "Couldn't find member"});
     }
 
+    let group = await models.Groups.findById(req.params.groupId);
+    if(!group){
+      return res.status(404).json({errors: "Group not found"});
+    }
+
     let _member = new types.Member(member);
     try{
       let topic = await _member.createTopic(req.params.groupId, req.body.title, req.body.description);
@@ -119,6 +124,11 @@ module.exports = {
     let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
+    }
+
+    let group = await models.Groups.findById(req.params.groupId);
+    if(!group){
+      return res.status(404).json({errors: "Group not found"});
     }
 
     let _member = new types.Member(member);
@@ -150,7 +160,7 @@ module.exports = {
 
     let group = await models.Groups.findById(request.group);
     if(!group){
-      return res.status(404).json({errors: "types.Group related to request doesn't exist"});
+      return res.status(404).json({errors: "Group related to request doesn't exist"});
     }
 
     if(group.admin._id.toString() !== member._id.toString()){
@@ -181,6 +191,11 @@ module.exports = {
     let member = await models.Members.findById(current_member.id);
     if(!member){
       return res.status(404).json({errors: "Member not found"});
+    }
+
+    let group = await models.Groups.findById(req.params.groupId);
+    if(!group){
+      return res.status(404).json({errors: "Group not found"});
     }
 
     let _member = new types.Member(member);

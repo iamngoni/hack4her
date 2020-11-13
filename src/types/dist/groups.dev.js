@@ -178,6 +178,31 @@ function () {
     value: function getMembers() {
       return this.group.members;
     }
+  }, {
+    key: "getRequests",
+    value: function getRequests() {
+      var requests;
+      return regeneratorRuntime.async(function getRequests$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return regeneratorRuntime.awrap(models.Requestx.find({
+                group: this.group._id,
+                approved: false
+              }).populate("member"));
+
+            case 2:
+              requests = _context6.sent;
+              return _context6.abrupt("return", requests);
+
+            case 4:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, null, this);
+    }
   }]);
 
   return Group;

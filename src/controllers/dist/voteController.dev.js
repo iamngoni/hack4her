@@ -49,13 +49,17 @@ module.exports = {
             }));
 
           case 12:
-            exists = models.Votes.find({
+            _context.next = 14;
+            return regeneratorRuntime.awrap(models.Votes.find({
               topic: topic._id,
               member: member._id
-            });
+            }));
+
+          case 14:
+            exists = _context.sent;
 
             if (!(exists.length > 0)) {
-              _context.next = 15;
+              _context.next = 17;
               break;
             }
 
@@ -63,19 +67,19 @@ module.exports = {
               errors: "Member cannot vote multiple times on one topic"
             }));
 
-          case 15:
+          case 17:
             vote = new models.Votes({
               topic: topic._id,
               member: member._id
             });
-            _context.next = 18;
+            _context.next = 20;
             return regeneratorRuntime.awrap(vote.save());
 
-          case 18:
+          case 20:
             _vote = _context.sent;
 
             if (_vote) {
-              _context.next = 21;
+              _context.next = 23;
               break;
             }
 
@@ -83,16 +87,16 @@ module.exports = {
               errors: "Couldn't save vote"
             }));
 
-          case 21:
+          case 23:
             _topic = new types.Topic(topic);
-            _context.next = 24;
+            _context.next = 26;
             return regeneratorRuntime.awrap(_topic.addVote(_vote._id));
 
-          case 24:
+          case 26:
             _topc = _context.sent;
 
             if (_topc) {
-              _context.next = 27;
+              _context.next = 29;
               break;
             }
 
@@ -100,26 +104,26 @@ module.exports = {
               errors: "Encountered an  error"
             }));
 
-          case 27:
+          case 29:
             res.status(201).json({
               success: "Success",
               vote: _vote
             });
-            _context.next = 33;
+            _context.next = 35;
             break;
 
-          case 30:
-            _context.prev = 30;
+          case 32:
+            _context.prev = 32;
             _context.t0 = _context["catch"](0);
             return _context.abrupt("return", res.status(500).json({
               errors: _context.t0.message
             }));
 
-          case 33:
+          case 35:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[0, 30]]);
+    }, null, null, [[0, 32]]);
   }
 };

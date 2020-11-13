@@ -10,6 +10,14 @@ class Post{
     let _post = await this.post.save();
     return _post;
   }
+
+  getComments(){
+    return this.post.comments;
+  }
+
+  getNumberOfComments(){
+    return this.post.comments.length;
+  }
 }
 
 module.exports = Post;

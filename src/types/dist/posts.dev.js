@@ -41,6 +41,16 @@ function () {
         }
       }, null, this);
     }
+  }, {
+    key: "getComments",
+    value: function getComments() {
+      return this.post.comments;
+    }
+  }, {
+    key: "getNumberOfComments",
+    value: function getNumberOfComments() {
+      return this.post.comments.length;
+    }
   }]);
 
   return Post;

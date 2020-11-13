@@ -246,7 +246,7 @@ module.exports = {
     });
   },
   createTopic: function createTopic(req, res) {
-    var current_member, member, _member, topic;
+    var current_member, member, group, _member, topic;
 
     return regeneratorRuntime.async(function createTopic$(_context5) {
       while (1) {
@@ -269,16 +269,32 @@ module.exports = {
             }));
 
           case 6:
+            _context5.next = 8;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
+
+          case 8:
+            group = _context5.sent;
+
+            if (group) {
+              _context5.next = 11;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 11:
             _member = new types.Member(member);
-            _context5.prev = 7;
-            _context5.next = 10;
+            _context5.prev = 12;
+            _context5.next = 15;
             return regeneratorRuntime.awrap(_member.createTopic(req.params.groupId, req.body.title, req.body.description));
 
-          case 10:
+          case 15:
             topic = _context5.sent;
 
             if (topic) {
-              _context5.next = 13;
+              _context5.next = 18;
               break;
             }
 
@@ -286,18 +302,18 @@ module.exports = {
               errors: "Couldn't save topic"
             }));
 
-          case 13:
+          case 18:
             return _context5.abrupt("return", res.status(201).json({
               success: "Success",
               topic: topic
             }));
 
-          case 16:
-            _context5.prev = 16;
-            _context5.t0 = _context5["catch"](7);
+          case 21:
+            _context5.prev = 21;
+            _context5.t0 = _context5["catch"](12);
 
             if (!(_context5.t0.code == 11000)) {
-              _context5.next = 20;
+              _context5.next = 25;
               break;
             }
 
@@ -305,20 +321,20 @@ module.exports = {
               errors: "Topic already exists"
             }));
 
-          case 20:
+          case 25:
             return _context5.abrupt("return", res.status(500).json({
               errors: "Server error"
             }));
 
-          case 21:
+          case 26:
           case "end":
             return _context5.stop();
         }
       }
-    }, null, null, [[7, 16]]);
+    }, null, null, [[12, 21]]);
   },
   requestGroupEntry: function requestGroupEntry(req, res) {
-    var current_member, member, _member, request;
+    var current_member, member, group, _member, request;
 
     return regeneratorRuntime.async(function requestGroupEntry$(_context6) {
       while (1) {
@@ -341,16 +357,32 @@ module.exports = {
             }));
 
           case 6:
+            _context6.next = 8;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
+
+          case 8:
+            group = _context6.sent;
+
+            if (group) {
+              _context6.next = 11;
+              break;
+            }
+
+            return _context6.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 11:
             _member = new types.Member(member);
-            _context6.prev = 7;
-            _context6.next = 10;
+            _context6.prev = 12;
+            _context6.next = 15;
             return regeneratorRuntime.awrap(_member.requestGroupEntry(req.params.groupId));
 
-          case 10:
+          case 15:
             request = _context6.sent;
 
             if (request) {
-              _context6.next = 13;
+              _context6.next = 18;
               break;
             }
 
@@ -358,26 +390,26 @@ module.exports = {
               errors: "Request not processed"
             }));
 
-          case 13:
+          case 18:
             return _context6.abrupt("return", res.status(201).json({
               success: "Success",
               request: request
             }));
 
-          case 16:
-            _context6.prev = 16;
-            _context6.t0 = _context6["catch"](7);
+          case 21:
+            _context6.prev = 21;
+            _context6.t0 = _context6["catch"](12);
             console.log(_context6.t0);
             return _context6.abrupt("return", res.status(500).json({
               errors: _context6.t0.message
             }));
 
-          case 20:
+          case 25:
           case "end":
             return _context6.stop();
         }
       }
-    }, null, null, [[7, 16]]);
+    }, null, null, [[12, 21]]);
   },
   approveMemberEntry: function approveMemberEntry(req, res) {
     var current_member, member, requestId, request, group, _group, modifiedGroup, isRequestApproved;
@@ -432,7 +464,7 @@ module.exports = {
             }
 
             return _context7.abrupt("return", res.status(404).json({
-              errors: "types.Group related to request doesn't exist"
+              errors: "Group related to request doesn't exist"
             }));
 
           case 17:
@@ -501,7 +533,7 @@ module.exports = {
     }, null, null, [[20, 35]]);
   },
   exitGroup: function exitGroup(req, res) {
-    var current_member, member, _member, group;
+    var current_member, member, group, _member, _group2;
 
     return regeneratorRuntime.async(function exitGroup$(_context8) {
       while (1) {
@@ -524,16 +556,32 @@ module.exports = {
             }));
 
           case 6:
-            _member = new types.Member(member);
-            _context8.prev = 7;
-            _context8.next = 10;
-            return regeneratorRuntime.awrap(_member.exitGroup(req.params.groupId));
+            _context8.next = 8;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
 
-          case 10:
+          case 8:
             group = _context8.sent;
 
             if (group) {
-              _context8.next = 13;
+              _context8.next = 11;
+              break;
+            }
+
+            return _context8.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 11:
+            _member = new types.Member(member);
+            _context8.prev = 12;
+            _context8.next = 15;
+            return regeneratorRuntime.awrap(_member.exitGroup(req.params.groupId));
+
+          case 15:
+            _group2 = _context8.sent;
+
+            if (_group2) {
+              _context8.next = 18;
               break;
             }
 
@@ -541,25 +589,25 @@ module.exports = {
               errors: "Failed to exit"
             }));
 
-          case 13:
+          case 18:
             return _context8.abrupt("return", res.status(200).json({
               success: "Success",
-              group: group
+              group: _group2
             }));
 
-          case 16:
-            _context8.prev = 16;
-            _context8.t0 = _context8["catch"](7);
+          case 21:
+            _context8.prev = 21;
+            _context8.t0 = _context8["catch"](12);
             return _context8.abrupt("return", res.status(500).json({
               errors: _context8.t0.message
             }));
 
-          case 19:
+          case 24:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[7, 16]]);
+    }, null, null, [[12, 21]]);
   },
   makeAPost: function makeAPost(req, res) {
     var current_member, member, group, topic, _group, topics, match, _member, post, _topic, _topc;

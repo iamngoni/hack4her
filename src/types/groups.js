@@ -59,6 +59,11 @@ class Group{
   getMembers(){
     return this.group.members;
   }
+
+  async getRequests(){
+    let requests = await models.Requestx.find({group: this.group._id, approved: false}).populate("member");
+    return requests;
+  }
 }
 
 module.exports = Group;
