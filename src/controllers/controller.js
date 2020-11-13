@@ -51,4 +51,9 @@ module.exports = {
 
     return res.status(200).json({success: "Success", data: member.toAuthJson()})
   },
+
+  popularTopics: async function(req, res){
+    let topics = await models.Topics.find();
+    
+  }
 }

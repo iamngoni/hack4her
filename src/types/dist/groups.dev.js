@@ -74,7 +74,7 @@ function () {
               _context2.next = 2;
               return regeneratorRuntime.awrap(models.Topics.find({
                 group: this.group._id
-              }));
+              }).populate("votes"));
 
             case 2:
               topics = _context2.sent;

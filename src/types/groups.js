@@ -24,7 +24,7 @@ class Group{
    * Get list of topics in a group
    */
   async topics(){
-    let topics = await models.Topics.find({group: this.group._id});
+    let topics = await models.Topics.find({group: this.group._id}).populate("votes");
     return topics;
   }
 
