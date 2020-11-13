@@ -8,6 +8,9 @@ var config = require("./../config");
 
 var models = require("./../models");
 
+var _require = require('express-validator'),
+    validationResult = _require.validationResult;
+
 var connect = mongoose.createConnection(config.db, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -121,21 +124,33 @@ module.exports = {
     });
   },
   createGroup: function createGroup(req, res) {
-    var current_member, member, _member, group;
+    var errors, current_member, member, _member, group;
 
     return regeneratorRuntime.async(function createGroup$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            current_member = req.member;
-            _context3.next = 3;
-            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+            errors = validationResult(req);
+
+            if (errors.isEmpty()) {
+              _context3.next = 3;
+              break;
+            }
+
+            return _context3.abrupt("return", res.status(422).json({
+              errors: errors.array()
+            }));
 
           case 3:
+            current_member = req.member;
+            _context3.next = 6;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 6:
             member = _context3.sent;
 
             if (member) {
-              _context3.next = 6;
+              _context3.next = 9;
               break;
             }
 
@@ -143,17 +158,17 @@ module.exports = {
               errors: "Member not found"
             }));
 
-          case 6:
+          case 9:
             _member = new types.Member(member);
-            _context3.prev = 7;
-            _context3.next = 10;
+            _context3.prev = 10;
+            _context3.next = 13;
             return regeneratorRuntime.awrap(_member.createGroup(req.body.name, req.body.description));
 
-          case 10:
+          case 13:
             group = _context3.sent;
 
             if (group) {
-              _context3.next = 13;
+              _context3.next = 16;
               break;
             }
 
@@ -161,18 +176,18 @@ module.exports = {
               errors: "Couldn't create group"
             }));
 
-          case 13:
+          case 16:
             return _context3.abrupt("return", res.status(201).json({
               success: "Success",
               group: group
             }));
 
-          case 16:
-            _context3.prev = 16;
-            _context3.t0 = _context3["catch"](7);
+          case 19:
+            _context3.prev = 19;
+            _context3.t0 = _context3["catch"](10);
 
             if (!(_context3.t0.code == 11000)) {
-              _context3.next = 20;
+              _context3.next = 23;
               break;
             }
 
@@ -180,17 +195,17 @@ module.exports = {
               errors: "types.Group name already registered"
             }));
 
-          case 20:
+          case 23:
             return _context3.abrupt("return", res.status(500).json({
               errors: "Server error"
             }));
 
-          case 21:
+          case 24:
           case "end":
             return _context3.stop();
         }
       }
-    }, null, null, [[7, 16]]);
+    }, null, null, [[10, 19]]);
   },
   getMemberAvatar: function getMemberAvatar(req, res) {
     var filename;

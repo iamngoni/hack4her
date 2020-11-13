@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+"use strict";
 
-let comment = mongoose.Schema({
+var mongoose = require("mongoose");
+
+var comment = mongoose.Schema({
   text: String,
   member: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,6 +12,7 @@ let comment = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Posts'
   }
-}, {timestamps: true});
-
+}, {
+  timestamps: true
+});
 module.exports = mongoose.model("Comments", comment);

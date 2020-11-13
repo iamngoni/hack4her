@@ -2,6 +2,7 @@ const types = require("../types");
 const mongoose = require("mongoose");
 const config = require("./../config");
 const models = require("./../models");
+const { validationResult } = require('express-validator');
 
 const connect = mongoose.createConnection(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -41,6 +42,10 @@ module.exports = {
   },
   
   createGroup: async function(req, res){
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() });
+    }
     let current_member = req.member;
     let member = await models.Members.findById(current_member.id);
     if(!member){
