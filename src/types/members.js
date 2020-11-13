@@ -37,7 +37,7 @@ class Member{
       throw new Error("Request was posted is still waiting for approval");
     }
 
-    let request = new Requestx({
+    let request = new models.Requestx({
       member: this.member._id,
       group: groupId
     });

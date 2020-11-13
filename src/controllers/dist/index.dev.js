@@ -5,5 +5,6 @@ module.exports = {
   AUTH: require("./controller"),
   MEMBERS: require("./memberController"),
   POSTS: require("./postController"),
-  TOPICS: require("./topicController")
+  TOPICS: require("./topicController"),
+  VOTES: require("./voteController")
 };

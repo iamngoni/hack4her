@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+"use strict";
 
-let topic = mongoose.Schema({
+var mongoose = require("mongoose");
+
+var topic = mongoose.Schema({
   title: {
     type: String,
     unique: true
@@ -14,18 +16,15 @@ let topic = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Members'
   },
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Posts'
-    }
-  ],
-  votes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Votes'
-    }
-  ]
-}, {timestamps: true});
-
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Posts'
+  }],
+  votes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Votes'
+  }]
+}, {
+  timestamps: true
+});
 module.exports = mongoose.model('Topics', topic);

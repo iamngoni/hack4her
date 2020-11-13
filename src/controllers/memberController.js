@@ -130,7 +130,8 @@ module.exports = {
 
       return res.status(201).json({success: "Success", request});
     }catch(error){
-      return res.status(500).json({errors: "Requests was posted already. Still waiting for approval"});
+      console.log(error);
+      return res.status(500).json({errors: error.message});
     }
   },
 

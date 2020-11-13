@@ -100,7 +100,7 @@ function () {
               throw new Error("Request was posted is still waiting for approval");
 
             case 6:
-              request = new Requestx({
+              request = new models.Requestx({
                 member: this.member._id,
                 group: groupId
               });

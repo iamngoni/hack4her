@@ -58,6 +58,41 @@ function () {
     value: function getPosts() {
       return this.topic.posts;
     }
+  }, {
+    key: "addVote",
+    value: function addVote(id) {
+      var votes, _topic;
+
+      return regeneratorRuntime.async(function addVote$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              votes = this.topic.votes;
+
+              if (!votes.includes(id)) {
+                _context2.next = 3;
+                break;
+              }
+
+              throw new Error("Cannot vote multiple times on the same topic");
+
+            case 3:
+              votes.push(id);
+              this.topic.votes = votes;
+              _context2.next = 7;
+              return regeneratorRuntime.awrap(this.topic.save());
+
+            case 7:
+              _topic = _context2.sent;
+              return _context2.abrupt("return", _topic);
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, null, this);
+    }
   }]);
 
   return Topic;

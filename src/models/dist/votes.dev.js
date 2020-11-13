@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+"use strict";
 
-let vote = mongoose.Schema({
+var mongoose = require("mongoose");
+
+var vote = mongoose.Schema({
   topic: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Topics'
@@ -9,6 +11,7 @@ let vote = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Members'
   }
-}, {timestamps: true});
-
+}, {
+  timestamps: true
+});
 module.exports = mongoose.model("Votes", vote);

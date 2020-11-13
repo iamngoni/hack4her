@@ -367,11 +367,12 @@ module.exports = {
           case 16:
             _context6.prev = 16;
             _context6.t0 = _context6["catch"](7);
+            console.log(_context6.t0);
             return _context6.abrupt("return", res.status(500).json({
-              errors: "Requests was posted already. Still waiting for approval"
+              errors: _context6.t0.message
             }));
 
-          case 19:
+          case 20:
           case "end":
             return _context6.stop();
         }

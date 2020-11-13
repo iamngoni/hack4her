@@ -79,7 +79,11 @@ router.get("/groups/requests/approve/:requestId", auth, controllers.MEMBERS.appr
 router.get("/groups/:groupId/exit", auth, controllers.MEMBERS.exitGroup);
 router.get("/groups/:groupId/members", auth, controllers.GROUPS.getMembers);
 router.get("/groups/:groupId/topics/:topicId/posts/new", auth, controllers.MEMBERS.makeAPost);
-router.get("/topics/:topicId/posts", auth, controllers.TOPICS.getPosts);
-router.post("/topics/:topicId/posts/:postId/comment", auth, controllers.POSTS.comment);
+router.get("/groups/:groupId/topics/:topicId/posts", auth, controllers.TOPICS.getPosts);
+router.post("/groups/:groupId/topics/:topicId/posts/:postId/comment", auth, controllers.POSTS.comment);
+
+
+// Topic Activity
+router.get("/groups/:groupId/topics/:topicId/vote", auth, controllers.VOTES.vote);
 
 module.exports = router;
