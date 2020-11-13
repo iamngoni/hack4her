@@ -202,10 +202,10 @@ module.exports = {
       }
     }, null, null, [[0, 24]]);
   },
-  getCommentsCount: function getCommentsCount(req, res) {
+  getNumberOfComments: function getNumberOfComments(req, res) {
     var current_member, member, group, post, _post, comments;
 
-    return regeneratorRuntime.async(function getCommentsCount$(_context3) {
+    return regeneratorRuntime.async(function getNumberOfComments$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -283,5 +283,96 @@ module.exports = {
         }
       }
     }, null, null, [[0, 24]]);
+  },
+  getSinglePost: function getSinglePost(req, res) {
+    var current_member, member, group, topic, post;
+    return regeneratorRuntime.async(function getSinglePost$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            current_member = req.member;
+            _context4.next = 4;
+            return regeneratorRuntime.awrap(models.Members.findById(current_member.id));
+
+          case 4:
+            member = _context4.sent;
+
+            if (member) {
+              _context4.next = 7;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Member not found"
+            }));
+
+          case 7:
+            _context4.next = 9;
+            return regeneratorRuntime.awrap(models.Groups.findById(req.params.groupId));
+
+          case 9:
+            group = _context4.sent;
+
+            if (group) {
+              _context4.next = 12;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Group not found"
+            }));
+
+          case 12:
+            _context4.next = 14;
+            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId));
+
+          case 14:
+            topic = _context4.sent;
+
+            if (topic) {
+              _context4.next = 17;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Topic not found"
+            }));
+
+          case 17:
+            _context4.next = 19;
+            return regeneratorRuntime.awrap(models.Posts.findById(req.params.postId).populate("comments"));
+
+          case 19:
+            post = _context4.sent;
+
+            if (post) {
+              _context4.next = 22;
+              break;
+            }
+
+            return _context4.abrupt("return", res.status(404).json({
+              errors: "Post not found"
+            }));
+
+          case 22:
+            return _context4.abrupt("return", res.status(200).json({
+              success: "Success",
+              post: post
+            }));
+
+          case 25:
+            _context4.prev = 25;
+            _context4.t0 = _context4["catch"](0);
+            return _context4.abrupt("return", res.status(500).json({
+              errors: _context4.t0.message
+            }));
+
+          case 28:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, null, null, [[0, 25]]);
   }
 };

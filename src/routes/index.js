@@ -95,13 +95,14 @@ router.get("/groups/:groupId/requests", auth, controllers.GROUPS.getUnApprovedRe
 // Get all comments for a post
 router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments", auth, controllers.POSTS.getComments);
 // Get Number of comments of a post
-router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getCommentsCount);
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getNumberOfComments);
 // Get Number of Votes on a topic
 router.get("/groups/:groupId/topics/:topicId/votes", auth, controllers.TOPICS.getNumberOfVotes);
 // Vote on a topic
 router.get("/groups/:groupId/topics/:topicId/vote", auth, controllers.VOTES.vote);
 // Get Groups followed by member
 router.get("/member/:memberId/groups", controllers.MEMBERS.getGroupsJoined);
-
+// Get single post
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/view", auth, controllers.POSTS.getSinglePost);
 
 module.exports = router;

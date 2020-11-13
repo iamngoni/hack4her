@@ -69,8 +69,8 @@ module.exports = {
       return res.status(500).json({errors: error.message});
     }
   },
-
-  getCommentsCount: async function(req, res){
+  
+  getNumberOfComments: async function(req, res){
     try{
       let current_member = req.member;
       let member = await models.Members.findById(current_member.id);
@@ -94,5 +94,34 @@ module.exports = {
     }catch(error){
       return res.status(500).json({errors: error.message});
     }
-  }
+  },
+
+  getSinglePost: async function(req, res){
+    try{
+      let current_member = req.member;
+      let member = await models.Members.findById(current_member.id);
+      if(!member){
+        return res.status(404).json({errors: "Member not found"});
+      }
+
+      let group = await models.Groups.findById(req.params.groupId);
+      if(!group){
+        return res.status(404).json({errors: "Group not found"});
+      }
+
+      let topic = await models.Topics.findById(req.params.topicId);
+      if(!topic){
+        return res.status(404).json({errors: "Topic not found"});
+      }
+
+      let post = await models.Posts.findById(req.params.postId).populate("comments");
+      if(!post){
+        return res.status(404).json({errors: "Post not found"});
+      }
+
+      return res.status(200).json({success: "Success", post});
+    }catch(error){
+      return res.status(500).json({errors: error.message});
+    }
+  },
 };
