@@ -54,6 +54,9 @@ module.exports = {
 
   popularTopics: async function(req, res){
     let topics = await models.Topics.find();
-    
+    let data = topics.sort(function(a,b){
+      return a.posts.length - b.posts.length;
+    });
+    return res.status(200).json({success: "Success", topics: data.reverse()});
   }
 }

@@ -104,5 +104,7 @@ router.get("/groups/:groupId/topics/:topicId/vote", auth, controllers.VOTES.vote
 
 router.get("/member/:memberId/groups", controllers.MEMBERS.getGroupsJoined); // Get single post
 
-router.get("/groups/:groupId/topics/:topicId/posts/:postId/view", auth, controllers.POSTS.getSinglePost);
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/view", auth, controllers.POSTS.getSinglePost); // Get Popular Topics
+
+router.get("/topics/popular", controllers.AUTH.popularTopics);
 module.exports = router;
