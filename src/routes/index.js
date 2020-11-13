@@ -84,6 +84,7 @@ router.post("/groups/:groupId/topics/:topicId/posts/:postId/comment", auth, cont
 router.get("/groups/:groupId/requests", auth, controllers.GROUPS.getUnApprovedRequests);
 router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments", auth, controllers.POSTS.getComments);
 router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getCommentsCount);
+router.get("/groups/:groupId/topics/:topicId/votes", auth, controllers.TOPICS.getNumberOfVotes);
 
 
 // Topic Activity

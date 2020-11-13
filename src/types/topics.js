@@ -30,6 +30,10 @@ class Topic{
     let _topic = await this.topic.save();
     return _topic;
   }
+
+  votesCount(){
+    return this.topic.votes.length;
+  }
 }
 
 module.exports = Topic;

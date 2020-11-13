@@ -80,7 +80,8 @@ router.get("/groups/:groupId/topics/:topicId/posts", auth, controllers.TOPICS.ge
 router.post("/groups/:groupId/topics/:topicId/posts/:postId/comment", auth, controllers.POSTS.comment);
 router.get("/groups/:groupId/requests", auth, controllers.GROUPS.getUnApprovedRequests);
 router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments", auth, controllers.POSTS.getComments);
-router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getCommentsCount); // Topic Activity
+router.get("/groups/:groupId/topics/:topicId/posts/:postId/comments_count", auth, controllers.POSTS.getCommentsCount);
+router.get("/groups/:groupId/topics/:topicId/votes", auth, controllers.TOPICS.getNumberOfVotes); // Topic Activity
 
 router.get("/groups/:groupId/topics/:topicId/vote", auth, controllers.VOTES.vote);
 module.exports = router;

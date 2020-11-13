@@ -93,6 +93,11 @@ function () {
         }
       }, null, this);
     }
+  }, {
+    key: "votesCount",
+    value: function votesCount() {
+      return this.topic.votes.length;
+    }
   }]);
 
   return Topic;
