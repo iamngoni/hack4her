@@ -1,6 +1,6 @@
 module.exports = {
   Activities: require("./activity"),
-  Comments: require("./groups"),
+  Comments: require("./comments"),
   Groups: require("./groups"),
   Images: require("./images"),
   Likes: require("./likes"),

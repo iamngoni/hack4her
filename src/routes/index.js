@@ -41,12 +41,12 @@ const uploads = multer({ storage });
 
 // Auth Routes
 router.post("/signup", [
-  check('firstName', 'First Name is required').exists().isEmpty(),
-  check('surname', 'Surname is required').exists().isEmpty(),
-  check('email', 'Email is required or format is wrong').exists().isEmail().isEmpty(),
-  check('bio', 'Bio is required').exists().isEmpty(),
-  check('occupation', 'Occupation is required').exists().isEmpty(),
-  check('dateOfBirth', 'Date Of Birth is required').exists().isEmpty(),
+  check('firstName', 'First Name is required').exists(),
+  check('surname', 'Surname is required').exists(),
+  check('email', 'Email is required or format is wrong').exists().isEmail(),
+  check('bio', 'Bio is required').exists(),
+  check('occupation', 'Occupation is required').exists(),
+  check('dateOfBirth', 'Date Of Birth is required').exists(),
   check('password', 'Password is required or is less than 6 characters').exists().isLength({min: 6})
 ], controllers.AUTH.signup);
 
@@ -67,8 +67,8 @@ router.get("/member_avatar/:filename", controllers.MEMBERS.getMemberAvatar);
 // Group Activity
 router.post("/groups/create", [
   auth,
-  check('name', "Group name is required").exists().isEmpty(),
-  check('description', 'Group description is required').exists().isEmpty()
+  check('name', "Group name is required").exists().not().isEmpty(),
+  check('description', 'Group description is required').exists().not().isEmpty()
 ], controllers.MEMBERS.createGroup);
 router.post("/groups/:groupId/topics/create", auth, controllers.MEMBERS.createTopic);
 router.get("/groups/:groupId/topics", auth, controllers.GROUPS.getTopics);
