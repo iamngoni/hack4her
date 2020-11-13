@@ -255,5 +255,20 @@ module.exports = {
       console.log(error);
       return res.status(500).json({errors: error.message}); 
     }
+  },
+
+  getGroupsJoined: async function(req, res){
+    try{
+      let member = await models.Members.findById(req.params.memberId);
+      if(!member){
+        return res.status(404).json({errors: "member details not found"});
+      }
+
+      let _member = new types.Member(member);
+      let groups = await _member.getGroupsJoined();
+      return res.status(200).json({success: "Success", groups});
+    }catch(error){
+      return res.status(500).json({errors: error.message});
+    }
   }
 }

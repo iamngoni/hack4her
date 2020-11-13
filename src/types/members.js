@@ -86,8 +86,16 @@ class Member{
     return _topic;
   }
 
-  vote(){
+  async getGroupsJoined(){
+    let groups = await models.Groups.find();
+    let followedGroups = [];
+    for(let i = 0; i < groups.length; i++){
+      if(groups[i].members.includes(this.member._id)){
+        followedGroups.push(groups[i]);
+      }
+    }
 
+    return followedGroups;
   }
 }
 

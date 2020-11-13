@@ -228,8 +228,35 @@ function () {
       }, null, this);
     }
   }, {
-    key: "vote",
-    value: function vote() {}
+    key: "getGroupsJoined",
+    value: function getGroupsJoined() {
+      var groups, followedGroups, i;
+      return regeneratorRuntime.async(function getGroupsJoined$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return regeneratorRuntime.awrap(models.Groups.find());
+
+            case 2:
+              groups = _context7.sent;
+              followedGroups = [];
+
+              for (i = 0; i < groups.length; i++) {
+                if (groups[i].members.includes(this.member._id)) {
+                  followedGroups.push(groups[i]);
+                }
+              }
+
+              return _context7.abrupt("return", followedGroups);
+
+            case 6:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, null, this);
+    }
   }]);
 
   return Member;

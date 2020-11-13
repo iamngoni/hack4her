@@ -739,5 +739,54 @@ module.exports = {
         }
       }
     }, null, null, [[0, 39]]);
+  },
+  getGroupsJoined: function getGroupsJoined(req, res) {
+    var member, _member, groups;
+
+    return regeneratorRuntime.async(function getGroupsJoined$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.prev = 0;
+            _context10.next = 3;
+            return regeneratorRuntime.awrap(models.Members.findById(req.params.memberId));
+
+          case 3:
+            member = _context10.sent;
+
+            if (member) {
+              _context10.next = 6;
+              break;
+            }
+
+            return _context10.abrupt("return", res.status(404).json({
+              errors: "member details not found"
+            }));
+
+          case 6:
+            _member = new types.Member(member);
+            _context10.next = 9;
+            return regeneratorRuntime.awrap(_member.getGroupsJoined());
+
+          case 9:
+            groups = _context10.sent;
+            return _context10.abrupt("return", res.status(200).json({
+              success: "Success",
+              groups: groups
+            }));
+
+          case 13:
+            _context10.prev = 13;
+            _context10.t0 = _context10["catch"](0);
+            return _context10.abrupt("return", res.status(500).json({
+              errors: _context10.t0.message
+            }));
+
+          case 16:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, null, null, [[0, 13]]);
   }
 };
