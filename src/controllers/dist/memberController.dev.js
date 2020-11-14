@@ -673,12 +673,11 @@ module.exports = {
           case 20:
             topics = _context9.sent;
             match = topics.filter(function (tpx) {
-              return tpx._id.toString() !== topic._id.toString();
+              return tpx._id.toString() === topic._id.toString();
             });
-            console.log(match);
 
-            if (!(match.length > 0)) {
-              _context9.next = 25;
+            if (!(match.length < 0)) {
+              _context9.next = 24;
               break;
             }
 
@@ -686,16 +685,16 @@ module.exports = {
               errors: "Topic doesn't belong to selected group"
             }));
 
-          case 25:
+          case 24:
             _member = new types.Member(member);
-            _context9.next = 28;
+            _context9.next = 27;
             return regeneratorRuntime.awrap(_member.createPost(topic._id, req.body.text));
 
-          case 28:
+          case 27:
             post = _context9.sent;
 
             if (post) {
-              _context9.next = 31;
+              _context9.next = 30;
               break;
             }
 
@@ -703,16 +702,16 @@ module.exports = {
               errors: "Couldn't create post"
             }));
 
-          case 31:
+          case 30:
             _topic = new types.Topic(topic);
-            _context9.next = 34;
+            _context9.next = 33;
             return regeneratorRuntime.awrap(_topic.addPost(post._id));
 
-          case 34:
+          case 33:
             _topc = _context9.sent;
 
             if (_topc) {
-              _context9.next = 37;
+              _context9.next = 36;
               break;
             }
 
@@ -720,26 +719,26 @@ module.exports = {
               errors: "Couldn't save post"
             }));
 
-          case 37:
+          case 36:
             return _context9.abrupt("return", res.status(200).json({
               success: "Success",
               post: post
             }));
 
-          case 40:
-            _context9.prev = 40;
+          case 39:
+            _context9.prev = 39;
             _context9.t0 = _context9["catch"](0);
             console.log(_context9.t0);
             return _context9.abrupt("return", res.status(500).json({
               errors: _context9.t0.message
             }));
 
-          case 44:
+          case 43:
           case "end":
             return _context9.stop();
         }
       }
-    }, null, null, [[0, 40]]);
+    }, null, null, [[0, 39]]);
   },
   getGroupsJoined: function getGroupsJoined(req, res) {
     var member, _member, groups;

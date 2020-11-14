@@ -15,7 +15,12 @@ module.exports = {
         return res.status(404).json({errors: "Group not found"});
       }
 
-      let topic = await models.Topics.findById(req.params.topicId).populate("posts");
+      let topic = await models.Topics.findById(req.params.topicId).populate({
+        path: "posts",
+        populate: {
+          path: "topic"
+        }
+      });
       if(!topic){
         return res.status(200).json({errors: "Topic not found"});
       }

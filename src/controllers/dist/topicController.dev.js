@@ -47,7 +47,12 @@ module.exports = {
 
           case 12:
             _context.next = 14;
-            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId).populate("posts"));
+            return regeneratorRuntime.awrap(models.Topics.findById(req.params.topicId).populate({
+              path: "posts",
+              populate: {
+                path: "topic"
+              }
+            }));
 
           case 14:
             topic = _context.sent;

@@ -232,10 +232,9 @@ module.exports = {
       let _group = new types.Group(group);
       let topics = await _group.topics();
 
-      let match = topics.filter((tpx) => tpx._id.toString() !== topic._id.toString());
-      console.log(match)
+      let match = topics.filter((tpx) => tpx._id.toString() === topic._id.toString());
 
-      if(match.length > 0){
+      if(match.length < 0){
         return res.status(403).json({errors: "Topic doesn't belong to selected group"});
       }
 
