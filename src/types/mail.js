@@ -7,7 +7,7 @@ class Email{
       service: 'gmail',
       auth: {
         user: 'imngonii@gmail.com',
-        pass: 'Nickm@ng13'
+        pass: ''
       }
     });
 
